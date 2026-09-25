@@ -1,0 +1,449 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Haven - Plant Store</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8f2;
+            color: #263b29;
+        }
+
+        header {
+            background: #285943;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 26px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 70px 20px;
+            background: #dcebd7;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .hero button {
+            background: #285943;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background: #193d2c;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 30px 20px;
+            flex-wrap: wrap;
+        }
+
+        .controls input,
+        .controls select {
+            padding: 12px;
+            border: 1px solid #b9cbb6;
+            border-radius: 8px;
+            width: 250px;
+        }
+
+        .products {
+            padding: 20px 8% 60px;
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plant-image {
+            height: 180px;
+            background: #dcebd7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .card-content {
+            padding: 18px;
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+        }
+
+        .category {
+            color: #6b856b;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 12px 0;
+            color: #285943;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 10px;
+            background: #285943;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #193d2c;
+        }
+
+        .cart {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: white;
+            width: 300px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .cart h3 {
+            margin-bottom: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .cart button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #285943;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            background: #285943;
+            color: white;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌿 Green Haven</h1>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#plants">Plants</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <h2>Bring Nature Home 🌱</h2>
+    <p>Beautiful plants delivered right to your doorstep.</p>
+    <button onclick="scrollToPlants()">Shop Plants</button>
+</section>
+
+<section class="controls">
+    <input
+        type="text"
+        id="search"
+        placeholder="Search plants..."
+        oninput="filterPlants()"
+    >
+
+    <select id="category" onchange="filterPlants()">
+        <option value="all">All Categories</option>
+        <option value="indoor">Indoor</option>
+        <option value="outdoor">Outdoor</option>
+        <option value="flowering">Flowering</option>
+    </select>
+</section>
+
+<section class="products" id="plants">
+    <h2>Our Plants</h2>
+
+    <div class="product-grid" id="productGrid"></div>
+</section>
+
+<div class="cart" id="cart">
+    <h3>🛒 Your Cart</h3>
+
+    <div id="cartItems"></div>
+
+    <strong>Total: ₹<span id="cartTotal">0</span></strong>
+
+    <button onclick="checkout()">Checkout</button>
+</div>
+
+<footer id="contact">
+    <p>© 2026 Green Haven | Grow Something Beautiful 🌱</p>
+</footer>
+
+<script>
+
+const plants = [
+    {
+        name: "Snake Plant",
+        category: "indoor",
+        price: 499,
+        image: "🌿"
+    },
+    {
+        name: "Peace Lily",
+        category: "indoor",
+        price: 599,
+        image: "🌱"
+    },
+    {
+        name: "Rose Plant",
+        category: "flowering",
+        price: 399,
+        image: "🌹"
+    },
+    {
+        name: "Aloe Vera",
+        category: "indoor",
+        price: 299,
+        image: "🪴"
+    },
+    {
+        name: "Marigold",
+        category: "flowering",
+        price: 249,
+        image: "🌼"
+    },
+    {
+        name: "Areca Palm",
+        category: "outdoor",
+        price: 699,
+        image: "🌴"
+    }
+];
+
+let cart = [];
+
+function displayPlants(list = plants) {
+
+    const grid = document.getElementById("productGrid");
+
+    grid.innerHTML = "";
+
+    list.forEach((plant, index) => {
+
+        grid.innerHTML += `
+            <div class="card">
+
+                <div class="plant-image">
+                    ${plant.image}
+                </div>
+
+                <div class="card-content">
+
+                    <h3>${plant.name}</h3>
+
+                    <p class="category">
+                        ${plant.category}
+                    </p>
+
+                    <p class="price">
+                        ₹${plant.price}
+                    </p>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart(${index})">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+    });
+}
+
+function filterPlants() {
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const category =
+        document.getElementById("category")
+        .value;
+
+    const filtered = plants.filter(plant => {
+
+        const matchesSearch =
+            plant.name.toLowerCase().includes(search);
+
+        const matchesCategory =
+            category === "all" ||
+            plant.category === category;
+
+        return matchesSearch && matchesCategory;
+    });
+
+    displayPlants(filtered);
+}
+
+function addToCart(index) {
+
+    const plant = plants[index];
+
+    cart.push(plant);
+
+    updateCart();
+
+    document.getElementById("cart").style.display = "block";
+}
+
+function updateCart() {
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+    cartItems.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        total += item.price;
+
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <span>${item.name}</span>
+
+                <span>
+                    ₹${item.price}
+                    <button
+                        onclick="removeFromCart(${index})"
+                        style="width:auto;margin:0;padding:3px 7px;">
+                        ×
+                    </button>
+                </span>
+            </div>
+        `;
+    });
+
+    document.getElementById("cartTotal").textContent = total;
+}
+
+function removeFromCart(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+
+    if (cart.length === 0) {
+        document.getElementById("cart").style.display = "none";
+    }
+}
+
+function checkout() {
+
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    alert(
+        "Thank you for your purchase! 🌱"
+    );
+
+    cart = [];
+
+    updateCart();
+
+    document.getElementById("cart").style.display = "none";
+}
+
+function scrollToPlants() {
+
+    document
+        .getElementById("plants")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+displayPlants();
+
+</script>
+
+</body>
+</html>
+```
