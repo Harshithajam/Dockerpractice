@@ -1,449 +1,541 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Haven - Plant Store</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloom & Petal · Flower Shop</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      background: #fefaf5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem 3rem;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f8f2;
-            color: #263b29;
-        }
+    /* main container */
+    .shop {
+      max-width: 1200px;
+      width: 100%;
+    }
 
-        header {
-            background: #285943;
-            color: white;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* header */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-        header h1 {
-            font-size: 26px;
-        }
+    .header h1 {
+      font-size: 2.8rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: #4a2e2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
+    .header h1 span {
+      font-size: 2.5rem;
+    }
 
-        .hero {
-            text-align: center;
-            padding: 70px 20px;
-            background: #dcebd7;
-        }
+    .header p {
+      color: #8b6b5e;
+      font-size: 1.1rem;
+      margin-top: 0.3rem;
+      border-bottom: 1px dashed #e6d6cf;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
 
-        .hero h2 {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
+    /* cart summary bar */
+    .cart-bar {
+      background: #fff6f0;
+      border-radius: 60px;
+      padding: 0.8rem 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 6px 14px rgba(180, 130, 110, 0.08);
+      border: 1px solid #f0dfd6;
+    }
 
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
+    .cart-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      color: #4f3a33;
+      font-weight: 500;
+    }
 
-        .hero button {
-            background: #285943;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-        }
+    .cart-icon {
+      background: #ffe3d3;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
 
-        .hero button:hover {
-            background: #193d2c;
-        }
+    .total-price {
+      background: #4a2e2a;
+      color: #ffefd9;
+      padding: 0.4rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.5px;
+    }
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 30px 20px;
-            flex-wrap: wrap;
-        }
+    /* flower grid */
+    .flower-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
 
-        .controls input,
-        .controls select {
-            padding: 12px;
-            border: 1px solid #b9cbb6;
-            border-radius: 8px;
-            width: 250px;
-        }
+    /* card */
+    .flower-card {
+      background: white;
+      border-radius: 32px;
+      padding: 1.8rem 1rem 1.5rem;
+      box-shadow: 0 15px 25px -8px rgba(150, 110, 90, 0.12);
+      transition: all 0.2s ease;
+      border: 1px solid #f5e4db;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
-        .products {
-            padding: 20px 8% 60px;
-        }
+    .flower-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 30px -12px rgba(150, 110, 90, 0.2);
+      border-color: #eccfc1;
+    }
 
-        .products h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .flower-emoji {
+      font-size: 4.8rem;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      filter: drop-shadow(2px 6px 8px rgba(170, 120, 100, 0.2));
+      transition: transform 0.2s;
+    }
 
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-        }
+    .flower-card:hover .flower-emoji {
+      transform: scale(1.05);
+    }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
+    .flower-name {
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: #422e29;
+      margin: 0.5rem 0 0.15rem;
+      letter-spacing: -0.5px;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
+    .flower-desc {
+      color: #a58376;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
 
-        .plant-image {
-            height: 180px;
-            background: #dcebd7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-        }
+    .flower-price {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #b35e3c;
+      background: #fff2e9;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 1.3rem;
+    }
 
-        .card-content {
-            padding: 18px;
-        }
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+      margin-top: 0.2rem;
+      flex-wrap: wrap;
+    }
 
-        .card h3 {
-            margin-bottom: 8px;
-        }
+    .btn {
+      border: none;
+      background: #ffe8dc;
+      color: #4a2e2a;
+      font-weight: 600;
+      font-size: 1.1rem;
+      width: 2.8rem;
+      height: 2.8rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 3px 8px rgba(180, 130, 110, 0.15);
+      line-height: 1;
+      user-select: none;
+      border: 1px solid #f0d9cd;
+    }
 
-        .category {
-            color: #6b856b;
-            font-size: 14px;
-        }
+    .btn:hover {
+      background: #f7d5c4;
+      transform: scale(1.02);
+    }
 
-        .price {
-            font-size: 20px;
-            font-weight: bold;
-            margin: 12px 0;
-            color: #285943;
-        }
+    .btn:active {
+      transform: scale(0.96);
+      background: #efc4b0;
+    }
 
-        .add-btn {
-            width: 100%;
-            padding: 10px;
-            background: #285943;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    .btn.add-to-cart {
+      background: #c28e72;
+      color: white;
+      width: auto;
+      padding: 0 1.5rem;
+      font-size: 1rem;
+      height: 2.8rem;
+      border: none;
+      box-shadow: 0 5px 10px rgba(160, 100, 70, 0.3);
+      letter-spacing: 0.3px;
+    }
 
-        .add-btn:hover {
-            background: #193d2c;
-        }
+    .btn.add-to-cart:hover {
+      background: #a9755b;
+    }
 
-        .cart {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background: white;
-            width: 300px;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            display: none;
-        }
+    .quantity-badge {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #4a2e2a;
+      min-width: 2rem;
+      text-align: center;
+    }
 
-        .cart h3 {
-            margin-bottom: 15px;
-        }
+    /* reset button */
+    .reset-area {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
 
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            font-size: 14px;
-        }
+    .reset-btn {
+      background: transparent;
+      border: 2px solid #e2cdc2;
+      color: #7b5d50;
+      padding: 0.7rem 2.2rem;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fffdfb;
+    }
 
-        .cart button {
-            margin-top: 15px;
-            width: 100%;
-            padding: 10px;
-            background: #285943;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    .reset-btn:hover {
+      background: #f7ede7;
+      border-color: #b99b8b;
+      color: #4a2e2a;
+    }
 
-        footer {
-            text-align: center;
-            background: #285943;
-            color: white;
-            padding: 20px;
-        }
-    </style>
+    .footer-note {
+      margin-top: 2.5rem;
+      font-size: 0.85rem;
+      color: #bb9b8c;
+      text-align: center;
+    }
+
+    /* toast message */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #3e2b26;
+      color: #ffefe4;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 500;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      z-index: 100;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      border: 1px solid #876b5d;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    /* empty state */
+    .empty-cart-msg {
+      font-size: 0.95rem;
+      color: #c2a392;
+    }
+
+    /* responsive */
+    @media (max-width: 600px) {
+      .header h1 {
+        font-size: 2.2rem;
+      }
+      .cart-bar {
+        padding: 0.7rem 1.2rem;
+      }
+      .total-price {
+        font-size: 1rem;
+        padding: 0.3rem 1rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-    <h1>🌿 Green Haven</h1>
+<div class="shop">
+  <!-- header -->
+  <div class="header">
+    <h1>
+      <span>🌸</span> Bloom & Petal <span>🌸</span>
+    </h1>
+    <p>fresh flowers, hand‑tied with love</p>
+  </div>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#plants">Plants</a>
-        <a href="#contact">Contact</a>
-    </nav>
-</header>
+  <!-- interactive cart bar -->
+  <div class="cart-bar">
+    <div class="cart-info">
+      <div class="cart-icon">🛒</div>
+      <span id="cartCountDisplay">0 items</span>
+    </div>
+    <div class="total-price" id="totalPriceDisplay">$0.00</div>
+  </div>
 
-<section class="hero" id="home">
-    <h2>Bring Nature Home 🌱</h2>
-    <p>Beautiful plants delivered right to your doorstep.</p>
-    <button onclick="scrollToPlants()">Shop Plants</button>
-</section>
+  <!-- flower grid injected by JS -->
+  <div class="flower-grid" id="flowerGrid"></div>
 
-<section class="controls">
-    <input
-        type="text"
-        id="search"
-        placeholder="Search plants..."
-        oninput="filterPlants()"
-    >
+  <!-- reset / clear cart -->
+  <div class="reset-area">
+    <button class="reset-btn" id="resetButton">
+      <span>🧹</span> clear cart
+    </button>
+  </div>
 
-    <select id="category" onchange="filterPlants()">
-        <option value="all">All Categories</option>
-        <option value="indoor">Indoor</option>
-        <option value="outdoor">Outdoor</option>
-        <option value="flowering">Flowering</option>
-    </select>
-</section>
-
-<section class="products" id="plants">
-    <h2>Our Plants</h2>
-
-    <div class="product-grid" id="productGrid"></div>
-</section>
-
-<div class="cart" id="cart">
-    <h3>🛒 Your Cart</h3>
-
-    <div id="cartItems"></div>
-
-    <strong>Total: ₹<span id="cartTotal">0</span></strong>
-
-    <button onclick="checkout()">Checkout</button>
+  <div class="footer-note">
+    🌿 every stem has a story — click + to add to basket
+  </div>
 </div>
 
-<footer id="contact">
-    <p>© 2026 Green Haven | Grow Something Beautiful 🌱</p>
-</footer>
+<!-- toast notification -->
+<div id="toast" class="toast">🌸 added to cart</div>
 
 <script>
+  (function() {
+    // ---------- FLOWER CATALOG ----------
+    const flowers = [
+      { id: 'rose', name: 'Rose', emoji: '🌹', price: 12.99, desc: 'romantic & timeless' },
+      { id: 'tulip', name: 'Tulip', emoji: '🌷', price: 9.50, desc: 'spring elegance' },
+      { id: 'sunflower', name: 'Sunflower', emoji: '🌻', price: 8.75, desc: 'radiant & cheerful' },
+      { id: 'daisy', name: 'Daisy', emoji: '🌼', price: 6.25, desc: 'pure & simple' },
+      { id: 'lavender', name: 'Lavender', emoji: '💜', price: 11.40, desc: 'calm & fragrant' },
+      { id: 'cherry', name: 'Cherry Blossom', emoji: '🌸', price: 14.20, desc: 'delicate spring' },
+      { id: 'hibiscus', name: 'Hibiscus', emoji: '🌺', price: 10.30, desc: 'tropical vibes' },
+      { id: 'bouquet', name: 'Mixed Bouquet', emoji: '💐', price: 24.99, desc: 'assorted seasonal' }
+    ];
 
-const plants = [
-    {
-        name: "Snake Plant",
-        category: "indoor",
-        price: 499,
-        image: "🌿"
-    },
-    {
-        name: "Peace Lily",
-        category: "indoor",
-        price: 599,
-        image: "🌱"
-    },
-    {
-        name: "Rose Plant",
-        category: "flowering",
-        price: 399,
-        image: "🌹"
-    },
-    {
-        name: "Aloe Vera",
-        category: "indoor",
-        price: 299,
-        image: "🪴"
-    },
-    {
-        name: "Marigold",
-        category: "flowering",
-        price: 249,
-        image: "🌼"
-    },
-    {
-        name: "Areca Palm",
-        category: "outdoor",
-        price: 699,
-        image: "🌴"
-    }
-];
+    // ---------- CART STATE ----------
+    // each item: { id, name, price, quantity }
+    let cart = [];
 
-let cart = [];
+    // ---------- DOM ELEMENTS ----------
+    const grid = document.getElementById('flowerGrid');
+    const cartCountDisplay = document.getElementById('cartCountDisplay');
+    const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+    const resetButton = document.getElementById('resetButton');
+    const toastEl = document.getElementById('toast');
 
-function displayPlants(list = plants) {
-
-    const grid = document.getElementById("productGrid");
-
-    grid.innerHTML = "";
-
-    list.forEach((plant, index) => {
-
-        grid.innerHTML += `
-            <div class="card">
-
-                <div class="plant-image">
-                    ${plant.image}
-                </div>
-
-                <div class="card-content">
-
-                    <h3>${plant.name}</h3>
-
-                    <p class="category">
-                        ${plant.category}
-                    </p>
-
-                    <p class="price">
-                        ₹${plant.price}
-                    </p>
-
-                    <button
-                        class="add-btn"
-                        onclick="addToCart(${index})">
-                        Add to Cart
-                    </button>
-
-                </div>
-
-            </div>
-        `;
-    });
-}
-
-function filterPlants() {
-
-    const search =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
-
-    const category =
-        document.getElementById("category")
-        .value;
-
-    const filtered = plants.filter(plant => {
-
-        const matchesSearch =
-            plant.name.toLowerCase().includes(search);
-
-        const matchesCategory =
-            category === "all" ||
-            plant.category === category;
-
-        return matchesSearch && matchesCategory;
-    });
-
-    displayPlants(filtered);
-}
-
-function addToCart(index) {
-
-    const plant = plants[index];
-
-    cart.push(plant);
-
-    updateCart();
-
-    document.getElementById("cart").style.display = "block";
-}
-
-function updateCart() {
-
-    const cartItems =
-        document.getElementById("cartItems");
-
-    cartItems.innerHTML = "";
-
-    let total = 0;
-
-    cart.forEach((item, index) => {
-
-        total += item.price;
-
-        cartItems.innerHTML += `
-            <div class="cart-item">
-                <span>${item.name}</span>
-
-                <span>
-                    ₹${item.price}
-                    <button
-                        onclick="removeFromCart(${index})"
-                        style="width:auto;margin:0;padding:3px 7px;">
-                        ×
-                    </button>
-                </span>
-            </div>
-        `;
-    });
-
-    document.getElementById("cartTotal").textContent = total;
-}
-
-function removeFromCart(index) {
-
-    cart.splice(index, 1);
-
-    updateCart();
-
-    if (cart.length === 0) {
-        document.getElementById("cart").style.display = "none";
-    }
-}
-
-function checkout() {
-
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
+    // ---------- UTILITIES ----------
+    // show toast message, auto hide after 1.8 sec
+    let toastTimer = null;
+    function showToast(message = '🌸 added to cart') {
+      toastEl.textContent = message;
+      toastEl.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 1800);
     }
 
-    alert(
-        "Thank you for your purchase! 🌱"
-    );
+    // format price
+    function formatPrice(value) {
+      return '$' + value.toFixed(2);
+    }
 
-    cart = [];
+    // ---------- RENDER FLOWER CARDS ----------
+    function renderFlowerCards() {
+      grid.innerHTML = ''; // clear
 
-    updateCart();
+      flowers.forEach(flower => {
+        const card = document.createElement('div');
+        card.className = 'flower-card';
+        card.dataset.id = flower.id;
 
-    document.getElementById("cart").style.display = "none";
-}
+        // emoji
+        const emojiDiv = document.createElement('div');
+        emojiDiv.className = 'flower-emoji';
+        emojiDiv.textContent = flower.emoji;
 
-function scrollToPlants() {
+        // name
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'flower-name';
+        nameDiv.textContent = flower.name;
 
-    document
-        .getElementById("plants")
-        .scrollIntoView({
-            behavior: "smooth"
+        // description
+        const descDiv = document.createElement('div');
+        descDiv.className = 'flower-desc';
+        descDiv.textContent = flower.desc;
+
+        // price
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'flower-price';
+        priceDiv.textContent = formatPrice(flower.price);
+
+        // actions container
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'card-actions';
+
+        // quantity badge (dynamic)
+        const qtySpan = document.createElement('span');
+        qtySpan.className = 'quantity-badge';
+        qtySpan.dataset.flowerId = flower.id;
+        qtySpan.textContent = '0';   // will be updated by updateQuantityBadges
+
+        // add to cart button
+        const addBtn = document.createElement('button');
+        addBtn.className = 'btn add-to-cart';
+        addBtn.textContent = 'add +';
+        addBtn.dataset.addId = flower.id;
+
+        // append elements
+        actionsDiv.appendChild(qtySpan);
+        actionsDiv.appendChild(addBtn);
+
+        card.appendChild(emojiDiv);
+        card.appendChild(nameDiv);
+        card.appendChild(descDiv);
+        card.appendChild(priceDiv);
+        card.appendChild(actionsDiv);
+
+        grid.appendChild(card);
+      });
+
+      // sync quantity badges after render
+      updateQuantityBadges();
+    }
+
+    // ---------- UPDATE QUANTITY BADGES (for each card) ----------
+    function updateQuantityBadges() {
+      // for each flower id, find quantity in cart and set badge
+      flowers.forEach(flower => {
+        const badge = document.querySelector(`.quantity-badge[data-flower-id="${flower.id}"]`);
+        if (!badge) return;
+        const cartItem = cart.find(item => item.id === flower.id);
+        const qty = cartItem ? cartItem.quantity : 0;
+        badge.textContent = qty;
+      });
+    }
+
+    // ---------- UPDATE CART SUMMARY (count & total) ----------
+    function updateCartSummary() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      cartCountDisplay.textContent = totalItems === 1 ? '1 item' : `${totalItems} items`;
+      totalPriceDisplay.textContent = formatPrice(totalPrice);
+    }
+
+    // ---------- ADD TO CART (by flower id) ----------
+    function addToCart(flowerId) {
+      const flower = flowers.find(f => f.id === flowerId);
+      if (!flower) return;
+
+      const existing = cart.find(item => item.id === flowerId);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: flower.id,
+          name: flower.name,
+          price: flower.price,
+          quantity: 1
         });
-}
+      }
 
-displayPlants();
+      // refresh UI
+      updateQuantityBadges();
+      updateCartSummary();
+      showToast(`🌸 ${flower.name} added to cart`);
+    }
 
+    // ---------- EVENT DELEGATION: handle clicks on add buttons ----------
+    function handleGridClick(e) {
+      const addBtn = e.target.closest('.btn.add-to-cart');
+      if (!addBtn) return;
+      const flowerId = addBtn.dataset.addId;
+      if (flowerId) {
+        addToCart(flowerId);
+      }
+    }
+
+    // ---------- CLEAR CART (reset) ----------
+    function clearCart() {
+      if (cart.length === 0) {
+        showToast('🛒 cart is already empty');
+        return;
+      }
+      cart = [];
+      updateQuantityBadges();
+      updateCartSummary();
+      showToast('🧺 cart cleared');
+    }
+
+    // ---------- INITIAL RENDER & BINDINGS ----------
+    function init() {
+      renderFlowerCards();
+      updateCartSummary();  // sets 0 items / $0.00
+
+      // add click listener to grid (event delegation)
+      grid.addEventListener('click', handleGridClick);
+
+      // reset button
+      resetButton.addEventListener('click', clearCart);
+    }
+
+    // start the app
+    init();
+  })();
 </script>
-
 </body>
 </html>
-```
